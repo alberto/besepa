@@ -35,7 +35,7 @@ class CustomersController < ApplicationController
   def update
     id = params[:id]
     update_customer(customer_params, id)
-    redirect_to customers_path, notice: 'Cliente creado correctamente.'
+    redirect_to customers_path, notice: 'Cliente actualizado correctamente.'
   end
 
   def destroy
