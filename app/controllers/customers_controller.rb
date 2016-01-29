@@ -60,7 +60,9 @@ class CustomersController < ApplicationController
 
   def get_customers
     response = besepa_client.get("customers")
-    response.body["response"]
+    response.body["response"].map do |customer|
+      Besepa::Resources::Customer.new(customer)
+    end
   end
 
   def get_customer(id)
