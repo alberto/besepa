@@ -40,27 +40,19 @@ class CustomersController < ApplicationController
   end
 
   def besepa_client
-    key = Rails.application.secrets.besepa_api_key
-    url = "https://sandbox.besepa.com/api/1/"
-    Faraday.new(:url => url, :headers => {:authorization => "Bearer #{key}"}) do |faraday|
-      faraday.request :json
-      faraday.request  :url_encoded             # form-encode POST params
-      faraday.response :logger                  # log requests to STDOUT
-      faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-      faraday.response :json
-    end
+    Besepa::Client.new
   end
 
   def get_customers
     response = besepa_client.get("customers")
     response.body["response"].map do |customer|
-      Besepa::Resources::Customer.new(customer)
+      ::Besepa::Resources::Customer.new(customer)
     end
   end
 
   def get_customer(id)
     response = besepa_client.get("customers/#{id}")
-    Besepa::Resources::Customer.new response.body["response"]
+    ::Besepa::Resources::Customer.new response.body["response"]
   end
 
   def create_customer(customer)
