@@ -1,5 +1,7 @@
-<h1><%= @customer["name"] %></h1>
 
+<h1><%= @customer["name"] %></h1>
+<hr>
+<div class="pull-right"><%= link_to 'Eliminar', customer_path(@customer.id), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-danger" %></div>
 <p>Código: <%= @customer["reference"] %></p>
 <p>Identificador fiscal: <%= @customer["taxid"] %></p>
 

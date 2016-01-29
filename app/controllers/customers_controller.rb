@@ -39,6 +39,9 @@ class CustomersController < ApplicationController
   end
 
   def destroy
+    id = params[:id]
+    delete_customer(id)
+    redirect_to customers_path, notice: 'Cliente eliminado correctamente.'
   end
 
   private
@@ -76,5 +79,9 @@ class CustomersController < ApplicationController
 
   def update_customer(customer, id)
     response = besepa_client.put("customers/#{id}", {customer: customer})
+  end
+
+  def delete_customer(id)
+    besepa_client.delete("customers/#{id}")
   end
 end
