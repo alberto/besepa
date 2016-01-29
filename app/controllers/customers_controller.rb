@@ -29,7 +29,7 @@ class CustomersController < ApplicationController
   end
 
   def edit
-    @customer = Besepa::Resources::Customer.new(get_customer(params[:id]))
+    @customer = get_customer(params[:id])
   end
 
   def update
@@ -65,7 +65,7 @@ class CustomersController < ApplicationController
 
   def get_customer(id)
     response = besepa_client.get("customers/#{id}")
-    ActiveSupport::HashWithIndifferentAccess.new(response.body["response"])
+    Besepa::Resources::Customer.new response.body["response"]
   end
 
   def create_customer(customer)
