@@ -1,9 +1,5 @@
 module Besepa
   class Client
-    extend Forwardable
-
-    def_delegators :@rest_client, :get, :post, :put, :delete
-
     def initialize
       key = Rails.application.secrets.besepa_api_key
       url = "https://sandbox.besepa.com/api/1/"
@@ -14,6 +10,30 @@ module Besepa
         faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
         faraday.response :json
       end
+    end
+
+    def get_customers
+      response = @rest_client.get("customers")
+      response.body["response"].map do |customer|
+        Resources::Customer.new(customer)
+      end
+    end
+
+    def get_customer(id)
+      response = @rest_client.get("customers/#{id}")
+      Resources::Customer.new response.body["response"]
+    end
+
+    def create_customer(customer)
+      @rest_client.post("customers", {customer: customer})
+    end
+
+    def update_customer(customer, id)
+      @rest_client.put("customers/#{id}", {customer: customer})
+    end
+
+    def delete_customer(id)
+      @rest_client.delete("customers/#{id}")
     end
   end
 end

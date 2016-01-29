@@ -39,31 +39,27 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(:name, :taxid, :reference, :contact_name, :contact_email, :contact_phone, :address_street, :address_city, :address_postalcode, :address_state, :address_country)
   end
 
-  def besepa_client
-    Besepa::Client.new
-  end
-
   def get_customers
-    response = besepa_client.get("customers")
-    response.body["response"].map do |customer|
-      ::Besepa::Resources::Customer.new(customer)
-    end
+    besepa_client.get_customers
   end
 
   def get_customer(id)
-    response = besepa_client.get("customers/#{id}")
-    ::Besepa::Resources::Customer.new response.body["response"]
+    besepa_client.get_customer(id)
   end
 
   def create_customer(customer)
-    response = besepa_client.post("customers", {customer: customer})
+    besepa_client.create_customer(customer)
   end
 
   def update_customer(customer, id)
-    response = besepa_client.put("customers/#{id}", {customer: customer})
+    besepa_client.update_customer(customer, id)
   end
 
   def delete_customer(id)
-    besepa_client.delete("customers/#{id}")
+    besepa_client.delete_customer(id)
+  end
+
+  def besepa_client
+    Besepa::Client.new
   end
 end
