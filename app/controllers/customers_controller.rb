@@ -24,6 +24,10 @@ class CustomersController < ApplicationController
       response.body["response"]
   end
 
+  def create_customer(customer)
+      response = besepa_client.post("customers", {customer: customer})
+  end
+
   def index
     @customers = get_customers
   end
@@ -36,6 +40,8 @@ class CustomersController < ApplicationController
   end
 
   def create
+      create_customer(customer_params)
+      redirect_to customers_path, notice: 'Cliente creado correctamente.'
   end
 
   def edit
@@ -45,5 +51,9 @@ class CustomersController < ApplicationController
   end
 
   def destroy
+  end
+
+  def customer_params
+      params.require(:customer).permit(:name, :taxid, :reference, :contact_name, :contact_email, :contact_phone, :address_street, :address_city, :address_postalcode, :address_state, :address_country)
   end
 end
