@@ -1,3 +1,26 @@
-<h1>Customers#index</h1>
-<p>Find me in app/views/customers/index.html.erb</p>
-<%= debug @customers %>
+<h1>Clientes</h1>
+<% if @customers %>
+    <% debug @customers %>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @customers.each do |customer| %>
+                <tr>
+                    <td><%= customer["reference"] %></td>
+                    <td><%= customer["name"] %></td>
+                    <td><%= customer["address_city"] %></td>
+                    <td><%= customer["status"] %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    Todavía no tienes clientes
+<% end %>
