@@ -18,12 +18,18 @@ class CustomersController < ApplicationController
       response = besepa_client.get("customers")
       response.body["response"]
   end
-  
+
+  def get_customer(id)
+      response = besepa_client.get("customers/#{id}")
+      response.body["response"]
+  end
+
   def index
     @customers = get_customers
   end
 
   def show
+    @customer = get_customer(params[:id])
   end
 
   def new

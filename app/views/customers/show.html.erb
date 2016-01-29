@@ -1,2 +1,19 @@
-<h1>Customers#show</h1>
-<p>Find me in app/views/customers/show.html.erb</p>
+<h1><%= @customer["name"] %></h1>
+
+<p>Código: <%= @customer["reference"] %></p>
+<p>Identificador fiscal: <%= @customer["taxid"] %></p>
+
+<h2>Dirección</h2>
+<p>Calle: <%= @customer["address_street"] %></p>
+<p>Código postal: <%= @customer["address_postal_code"] %></p>
+<p>Ciudad: <%= @customer["address_city"] %></p>
+<p>Provincia: <%= @customer["address_state"] %></p>
+<p>País: <%= @customer["address_country"] %></p>
+
+<h2>Datos de la persona de contacto</h2>
+<p>Nombre: <%= @customer["contact_name"] %></p>
+<p>Email: <%= @customer["contact_email"] %></p>
+<p>Teléfono: <%= @customer["contact_phone"] %></p>
+
+<%= link_to 'Editar', edit_customer_path(@customer["id"]) %> |
+<%= link_to 'Volver', customers_path %>

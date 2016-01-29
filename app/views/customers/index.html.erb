@@ -13,7 +13,7 @@
         <tbody>
             <% @customers.each do |customer| %>
                 <tr>
-                    <td><%= customer["reference"] %></td>
+                    <td><%= link_to customer["reference"], customer_path(customer["id"]) %></td>
                     <td><%= customer["name"] %></td>
                     <td><%= customer["address_city"] %></td>
                     <td><%= customer["status"] %></td>
