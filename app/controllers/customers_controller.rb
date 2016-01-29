@@ -1,16 +1,6 @@
 require 'faraday'
 require 'faraday_middleware'
 
-module Besepa
-  module Resources
-    class Customer < OpenStruct
-      def initialize(params)
-        super
-      end
-    end
-  end
-end
-
 class CustomersController < ApplicationController
   def index
     @customers = get_customers
