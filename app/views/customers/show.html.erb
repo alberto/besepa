@@ -15,5 +15,5 @@
 <p>Email: <%= @customer["contact_email"] %></p>
 <p>Teléfono: <%= @customer["contact_phone"] %></p>
 
-<%= link_to 'Editar', edit_customer_path(@customer["id"]) %> |
-<%= link_to 'Volver', customers_path %>
+<%= link_to 'Editar', edit_customer_path(@customer["id"]), class: "btn btn-primary" %>
+<%= link_to 'Volver', customers_path, class: "btn btn-lnk" %>
