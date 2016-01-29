@@ -1,10 +1,10 @@
 <h1>Editar cliente</h1>
 
 <%= form_for(:customer, url: customer_path(@customer.id), method: :put) do |f| %>
-    <%= render partial: 'form', locals: {f: f} %>
+  <%= render partial: 'form', locals: {f: f} %>
 
-    <div class="actions">
-      <%= f.submit "Guardar", class: "btn btn-primary" %>
-      <%= link_to 'Volver', customers_path, class: "btn btn-lnk" %>
-    </div>
+  <div class="actions">
+    <%= f.submit "Guardar", class: "btn btn-primary" %>
+    <%= link_to 'Volver', customers_path, class: "btn btn-lnk" %>
+  </div>
 <% end %>

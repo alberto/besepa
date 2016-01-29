@@ -3,27 +3,26 @@
 <p><%= link_to 'Crear cliente', new_customer_path, class: "btn btn-primary" %></p>
 
 <% if @customers %>
-    <% debug @customers %>
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Ciudad</th>
-                <th>Estado</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @customers.each do |customer| %>
-                <tr>
-                    <td><%= link_to customer["reference"], customer_path(customer["id"]) %></td>
-                    <td><%= customer["name"] %></td>
-                    <td><%= customer["address_city"] %></td>
-                    <td><%= customer["status"] %></td>
-                </tr>
-            <% end %>
-        </tbody>
-    </table>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Ciudad</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= link_to customer["reference"], customer_path(customer["id"]) %></td>
+          <td><%= customer["name"] %></td>
+          <td><%= customer["address_city"] %></td>
+          <td><%= customer["status"] %></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
 <% else %>
-    Todavía no tienes clientes
+  Todavía no tienes clientes
 <% end %>
