@@ -2,32 +2,6 @@ require 'faraday'
 require 'faraday_middleware'
 
 class CustomersController < ApplicationController
-  def besepa_client
-      key = Rails.application.secrets.besepa_api_key
-      url = "https://sandbox.besepa.com/api/1/"
-      Faraday.new(:url => url, :headers => {:authorization => "Bearer #{key}"}) do |faraday|
-        faraday.request :json
-        faraday.request  :url_encoded             # form-encode POST params
-        faraday.response :logger                  # log requests to STDOUT
-        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-        faraday.response :json
-      end
-  end
-
-  def get_customers
-      response = besepa_client.get("customers")
-      response.body["response"]
-  end
-
-  def get_customer(id)
-      response = besepa_client.get("customers/#{id}")
-      response.body["response"]
-  end
-
-  def create_customer(customer)
-      response = besepa_client.post("customers", {customer: customer})
-  end
-
   def index
     @customers = get_customers
   end
@@ -53,7 +27,34 @@ class CustomersController < ApplicationController
   def destroy
   end
 
+  private
   def customer_params
       params.require(:customer).permit(:name, :taxid, :reference, :contact_name, :contact_email, :contact_phone, :address_street, :address_city, :address_postalcode, :address_state, :address_country)
+  end
+
+  def besepa_client
+      key = Rails.application.secrets.besepa_api_key
+      url = "https://sandbox.besepa.com/api/1/"
+      Faraday.new(:url => url, :headers => {:authorization => "Bearer #{key}"}) do |faraday|
+        faraday.request :json
+        faraday.request  :url_encoded             # form-encode POST params
+        faraday.response :logger                  # log requests to STDOUT
+        faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.response :json
+      end
+  end
+
+  def get_customers
+      response = besepa_client.get("customers")
+      response.body["response"]
+  end
+
+  def get_customer(id)
+      response = besepa_client.get("customers/#{id}")
+      response.body["response"]
+  end
+
+  def create_customer(customer)
+      response = besepa_client.post("customers", {customer: customer})
   end
 end
