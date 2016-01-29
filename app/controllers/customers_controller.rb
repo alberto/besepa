@@ -40,23 +40,23 @@ class CustomersController < ApplicationController
   end
 
   def get_customers
-    besepa_client.get_customers
+    besepa_client.customers.list
   end
 
   def get_customer(id)
-    besepa_client.get_customer(id)
+    besepa_client.customers.get(id)
   end
 
   def create_customer(customer)
-    besepa_client.create_customer(customer)
+    besepa_client.customers.create(customer)
   end
 
   def update_customer(customer, id)
-    besepa_client.update_customer(customer, id)
+    besepa_client.customers.update(customer, id)
   end
 
   def delete_customer(id)
-    besepa_client.delete_customer(id)
+    besepa_client.customers.delete(id)
   end
 
   def besepa_client

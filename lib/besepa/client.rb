@@ -12,28 +12,9 @@ module Besepa
       end
     end
 
-    def get_customers
-      response = @rest_client.get("customers")
-      response.body["response"].map do |customer|
-        Resources::Customer.new(customer)
-      end
-    end
 
-    def get_customer(id)
-      response = @rest_client.get("customers/#{id}")
-      Resources::Customer.new response.body["response"]
-    end
-
-    def create_customer(customer)
-      @rest_client.post("customers", {customer: customer})
-    end
-
-    def update_customer(customer, id)
-      @rest_client.put("customers/#{id}", {customer: customer})
-    end
-
-    def delete_customer(id)
-      @rest_client.delete("customers/#{id}")
+    def customers
+      Services::Customers.new(@rest_client)
     end
   end
 end
