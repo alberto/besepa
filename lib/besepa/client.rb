@@ -6,7 +6,7 @@ module Besepa
       @rest_client = Faraday.new(:url => url, :headers => {:authorization => "Bearer #{key}"}) do |faraday|
         faraday.request :json
         faraday.request  :url_encoded             # form-encode POST params
-        faraday.response :logger                  # log requests to STDOUT
+        #faraday.response :logger                  # log requests to STDOUT
         faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
         faraday.response :json
       end

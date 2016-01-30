@@ -10,7 +10,7 @@
 <p><%= link_to 'Crear cliente', new_customer_path, class: "btn btn-primary" %></p>
 
 <% if @customers %>
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped table-bordered" data-qa="customers-list">
     <thead>
       <tr>
         <th>Código</th>
@@ -21,11 +21,11 @@
     </thead>
     <tbody>
       <% @customers.each do |customer| %>
-        <tr>
+        <tr data-qa="customers-list__customer">
           <td><%= link_to customer["reference"], customer_path(customer["id"]) %></td>
           <td><%= customer["name"] %></td>
           <td><%= customer["address_city"] %></td>
-          <td><%= customer["status"] %></td>
+          <td data-qa="customer-list__customer-status"><%= customer["status"] %></td>
         </tr>
         <% end %>
     </tbody>
