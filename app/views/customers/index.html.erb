@@ -5,31 +5,31 @@
   </div>
 <% end %>
 
-<h1>Clientes</h1>
+<h1>Customers</h1>
 
-<p><%= link_to 'Crear cliente', new_customer_path, class: "btn btn-primary" %></p>
+<p><%= link_to 'Create customer', new_customer_path, class: "btn btn-primary" %></p>
 
-<% if @customers %>
+<% if @customers.any? %>
   <table class="table table-striped table-bordered" data-qa="customers-list">
     <thead>
       <tr>
-        <th>Código</th>
-        <th>Nombre</th>
-        <th>Ciudad</th>
-        <th>Estado</th>
+        <th>Reference</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Status</th>
       </tr>
     </thead>
     <tbody>
       <% @customers.each do |customer| %>
         <tr data-qa="customers-list__customer">
-          <td><%= link_to customer["reference"], customer_path(customer["id"]) %></td>
-          <td><%= customer["name"] %></td>
-          <td><%= customer["address_city"] %></td>
-          <td data-qa="customer-list__customer-status"><%= customer["status"] %></td>
+          <td><%= link_to customer.reference, customer_path(customer.id) %></td>
+          <td><%= customer.name %></td>
+          <td><%= customer.address_city %></td>
+          <td data-qa="customer-list__customer-status"><%= customer.status %></td>
         </tr>
         <% end %>
     </tbody>
   </table>
 <% else %>
-  Todavía no tienes clientes
+  You don't have any customers yet.
 <% end %>

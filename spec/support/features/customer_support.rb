@@ -7,10 +7,10 @@ module Pages
     end
 
     def create_customer customer
-      click_on "Crear cliente"
+      click_on "Create customer"
       fill_in('Name', :with => customer[:name])
       fill_in('Reference', :with => customer[:reference])
-      click_on "Crear"
+      click_on "Create"
     end
 
     def has_customer? customer
@@ -30,9 +30,9 @@ module Pages
     end
 
     def update_customer new_data, customer
-      click_on "Editar"
+      click_on "Edit"
       fill_in('Name', :with => new_data[:name])
-      click_on "Guardar"
+      click_on "Update"
     end
 
     def has_customer_updated_with? new_customer_data, customer
@@ -57,7 +57,7 @@ module Pages
     end
 
     def delete_customer customer
-      click_on "Eliminar"
+      click_on "Delete"
     end
   end
 end

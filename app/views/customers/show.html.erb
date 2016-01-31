@@ -1,21 +1,21 @@
 
-<h1><%= @customer["name"] %></h1>
+<h1><%= @customer.name %></h1>
 <hr>
-<div class="pull-right"><%= link_to 'Eliminar', customer_path(@customer.id), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-danger" %></div>
-<p>Código: <%= @customer["reference"] %></p>
-<p>Identificador fiscal: <%= @customer["taxid"] %></p>
+<div class="pull-right"><%= link_to 'Delete', customer_path(@customer.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %></div>
+<p>Reference: <%= @customer.reference %></p>
+<p>Tax id: <%= @customer.taxid %></p>
 
-<h2>Dirección</h2>
-<p>Calle: <%= @customer["address_street"] %></p>
-<p>Código postal: <%= @customer["address_postal_code"] %></p>
-<p>Ciudad: <%= @customer["address_city"] %></p>
-<p>Provincia: <%= @customer["address_state"] %></p>
-<p>País: <%= @customer["address_country"] %></p>
+<h2>Address</h2>
+<p>Street: <%= @customer.address_street %></p>
+<p>Postal code: <%= @customer.address_postal_code %></p>
+<p>City: <%= @customer.address_city %></p>
+<p>State: <%= @customer.address_state %></p>
+<p>Country: <%= @customer.address_country %></p>
 
-<h2>Datos de la persona de contacto</h2>
-<p>Nombre: <%= @customer["contact_name"] %></p>
-<p>Email: <%= @customer["contact_email"] %></p>
-<p>Teléfono: <%= @customer["contact_phone"] %></p>
+<h2>Contact person</h2>
+<p>Name: <%= @customer.contact_name %></p>
+<p>Email: <%= @customer.contact_email %></p>
+<p>Phone: <%= @customer.contact_phone %></p>
 
-<%= link_to 'Editar', edit_customer_path(@customer["id"]), class: "btn btn-primary" %>
-<%= link_to 'Volver', customers_path, class: "btn btn-lnk" %>
+<%= link_to 'Edit', edit_customer_path(@customer.id), class: "btn btn-primary" %>
+<%= link_to 'Back', customers_path, class: "btn btn-lnk" %>
