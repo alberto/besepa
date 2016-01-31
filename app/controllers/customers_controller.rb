@@ -15,7 +15,7 @@ class CustomersController < ApplicationController
 
   def create
     create_customer(customer_params)
-    redirect_to customers_path, notice: 'Cliente creado correctamente.'
+    redirect_to customers_path, notice: 'Customer successfully created'
   end
 
   def edit
@@ -25,13 +25,13 @@ class CustomersController < ApplicationController
   def update
     id = params[:id]
     update_customer(customer_params, id)
-    redirect_to customers_path, notice: 'Cliente actualizado correctamente.'
+    redirect_to customers_path, notice: 'Customer successfully updated.'
   end
 
   def destroy
     id = params[:id]
     delete_customer(id)
-    redirect_to customers_path, notice: 'Cliente eliminado correctamente.'
+    redirect_to customers_path, notice: 'Customer successfully removed.'
   end
 
   private

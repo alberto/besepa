@@ -1,4 +1,4 @@
-require "rails_helper"
+require "feature_helper"
 require "support/features/customer_support"
 
 RSpec.feature "Customer", :type => :feature do
