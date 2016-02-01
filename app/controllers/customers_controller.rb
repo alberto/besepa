@@ -16,6 +16,8 @@ class CustomersController < ApplicationController
   def create
     create_customer(customer_params)
     redirect_to customers_path, notice: 'Customer successfully created'
+  rescue Besepa::Errors::BesepaError
+    render :new
   end
 
   def edit

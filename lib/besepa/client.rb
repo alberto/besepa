@@ -12,7 +12,6 @@ module Besepa
       end
     end
 
-
     def customers
       Services::Customers.new(@rest_client)
     end
