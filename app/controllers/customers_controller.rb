@@ -8,6 +8,8 @@ class CustomersController < ApplicationController
 
   def show
     @customer = get_customer(params[:id])
+  rescue Besepa::Errors::NotFoundError
+    render :text => 'Customer Not Found', :status => '404'
   end
 
   def new
@@ -15,25 +17,34 @@ class CustomersController < ApplicationController
 
   def create
     create_customer(customer_params)
-    redirect_to customers_path, notice: 'Customer successfully created'
+    redirect_to customers_path, notice: 'Customer successfully created.'
   rescue Besepa::Errors::BesepaError
+    flash.now[:alert] = 'Customer could not be created.'
     render :new
   end
 
   def edit
     @customer = get_customer(params[:id])
+  rescue Besepa::Errors::NotFoundError
+    render :text => 'Customer Not Found', :status => '404'
   end
 
   def update
     id = params[:id]
     update_customer(customer_params, id)
     redirect_to customers_path, notice: 'Customer successfully updated.'
+  rescue Besepa::Errors::BesepaError
+    flash.now[:alert] = 'Customer could not be updated.'
+    render :edit
   end
 
   def destroy
     id = params[:id]
     delete_customer(id)
     redirect_to customers_path, notice: 'Customer successfully removed.'
+  rescue Besepa::Errors::BesepaError
+    flash.now[:alert] = 'Customer could not be deleted.'
+    render :edit
   end
 
   private

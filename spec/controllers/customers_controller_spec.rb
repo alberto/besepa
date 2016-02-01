@@ -60,7 +60,16 @@ describe CustomersController do
       expect(assigns(:customer)).to eq(customer)
     end
 
-    #TODO: Error handling for nonexistent customer
+    context "with nonexistent customer" do
+      before(:each) do
+        allow(controller).to receive(:get_customer).and_raise Besepa::Errors::NotFoundError
+      end
+
+      it "has a 404 status code" do
+         get :show, id: 1
+         expect(response).to have_http_status(:not_found)
+       end
+    end
   end
 
   describe "GET edit" do
@@ -86,7 +95,16 @@ describe CustomersController do
       expect(assigns(:customer)).to eq(customer)
     end
 
-    #TODO: Error handling for nonexistent customer
+    context "with nonexistent customer" do
+      before(:each) do
+        allow(controller).to receive(:get_customer).and_raise Besepa::Errors::NotFoundError
+      end
+
+      it "has a 404 status code" do
+         get :edit, id: 1
+         expect(response).to have_http_status(:not_found)
+       end
+    end
   end
 
   describe "POST create" do
@@ -99,11 +117,6 @@ describe CustomersController do
     it "has a 302 status code" do
        post :create, customer: customer_params
        expect(response).to have_http_status(:found)
-     end
-
-    it "redirects to index" do
-      post :create, customer: customer_params
-      expect(response).to redirect_to(customers_path)
     end
 
     it "redirects to index" do
@@ -116,7 +129,26 @@ describe CustomersController do
       expect(flash[:notice]).to match(/^Customer successfully created/)
     end
 
-    #TODO: Error handling for nonexistent customer
+    context "with invalid data" do
+      before(:each) do
+        allow(controller).to receive(:create_customer).and_raise(Besepa::Errors::BesepaError)
+      end
+
+      it "has a 200 status code" do
+         post :create, customer: customer_params
+         expect(response).to have_http_status(:ok)
+      end
+
+      it "renders the new template" do
+        post :create, customer: customer_params
+        expect(response).to render_template(:new)
+      end
+
+      it "displays an alert message" do
+        post :create, customer: customer_params
+        expect(flash[:alert]).to match(/^Customer could not be created/)
+      end
+    end
   end
 
   describe "PUT update" do
@@ -141,7 +173,27 @@ describe CustomersController do
       expect(flash[:notice]).to match(/^Customer successfully updated/)
     end
 
-    #TODO: Error handling for nonexistent customer
+    context "with invalid data" do
+
+      before(:each) do
+        allow(controller).to receive(:update_customer).and_raise(Besepa::Errors::BesepaError)
+      end
+
+      it "has a 200 status code" do
+         put :update, id: 1, customer: customer_params
+         expect(response).to have_http_status(:ok)
+       end
+
+      it "renders the edit template" do
+        put :update, id: 1, customer: customer_params
+        expect(response).to render_template(:edit)
+      end
+
+      it "displays an error message" do
+        put :update, id: 1, customer: customer_params
+        expect(flash[:alert]).to match(/^Customer could not be updated/)
+      end
+    end
   end
 
   describe "DELETE destroy" do
@@ -164,6 +216,25 @@ describe CustomersController do
       expect(flash[:notice]).to match(/^Customer successfully removed/)
     end
 
-    #TODO: Error handling for nonexistent customer
+    context "with invalid data" do
+      before(:each) do
+        allow(controller).to receive(:delete_customer).and_raise(Besepa::Errors::BesepaError)
+      end
+
+      it "has a 200 status code" do
+         delete :destroy, id: 1
+         expect(response).to have_http_status(:ok)
+       end
+
+      it "renders the edit template" do
+        delete :destroy, id: 1
+        expect(response).to render_template(:edit)
+      end
+
+      it "displays an alert message" do
+        delete :destroy, id: 1
+        expect(flash[:alert]).to match(/^Customer could not be deleted/)
+      end
+    end
   end
 end
