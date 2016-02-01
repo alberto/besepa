@@ -90,3 +90,8 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+def fixture(file)
+  fixture_path = File.expand_path('../fixtures', __FILE__)
+  File.new(fixture_path + '/' + file)
+end
