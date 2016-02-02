@@ -1,6 +1,3 @@
-require 'faraday'
-require 'faraday_middleware'
-
 class CustomersController < ApplicationController
   def index
     @customers = get_customers
