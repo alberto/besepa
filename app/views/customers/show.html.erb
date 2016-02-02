@@ -18,5 +18,8 @@
 <p>Email: <%= @customer.contact_email %></p>
 <p>Phone: <%= @customer.contact_phone %></p>
 
+<h2>Bank Accounts</h2>
+<%= link_to 'Create account', new_customer_bank_account_path(@customer.id), class: "btn btn-primary" %>
+
 <%= link_to 'Edit', edit_customer_path(@customer.id), class: "btn btn-primary" %>
 <%= link_to 'Back', customers_path, class: "btn btn-lnk" %>

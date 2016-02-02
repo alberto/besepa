@@ -56,6 +56,12 @@ module Pages
       has_content?(customer[:reference])
     end
 
+    def create_account account
+      click_on "Create account"
+      fill_in('Iban', :with => account[:iban])
+      click_on "Create"
+    end
+
     def delete_customer customer
       click_on "Delete"
     end
