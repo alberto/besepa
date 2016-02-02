@@ -17,6 +17,7 @@ class CustomersController < ApplicationController
     redirect_to customers_path, notice: 'Customer successfully created.'
   rescue Besepa::Errors::BesepaError
     flash.now[:alert] = 'Customer could not be created.'
+    @customer = Besepa::Resources::Customer.new(customer_params)
     render :new
   end
 
@@ -32,6 +33,7 @@ class CustomersController < ApplicationController
     redirect_to customers_path, notice: 'Customer successfully updated.'
   rescue Besepa::Errors::BesepaError
     flash.now[:alert] = 'Customer could not be updated.'
+    @customer = Besepa::Resources::Customer.new(customer_params.merge(id: id))
     render :edit
   end
 

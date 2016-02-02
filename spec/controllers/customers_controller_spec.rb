@@ -148,6 +148,17 @@ describe CustomersController do
         post :create, customer: customer_params
         expect(flash[:alert]).to match(/^Customer could not be created/)
       end
+
+      it "assigns updated @customer" do
+        post :create, customer: customer_params
+
+        customer = assigns(:customer)
+        expect(customer).to have_attributes(
+          name: customer_params[:name]
+        )
+
+        expect(customer).not_to respond_to(:id)
+      end
     end
   end
 
@@ -192,6 +203,15 @@ describe CustomersController do
       it "displays an error message" do
         put :update, id: 1, customer: customer_params
         expect(flash[:alert]).to match(/^Customer could not be updated/)
+      end
+
+      it "assigns updated @customer" do
+        put :update, id: 1, customer: customer_params
+
+        expect(assigns(:customer)).to have_attributes(
+          id: "1",
+          name: customer_params[:name]
+        )
       end
     end
   end
