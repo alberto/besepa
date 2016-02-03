@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AlbertoTechtest</title>
+  <title>BeSEPA ♥ alberto</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic,100,500' rel='stylesheet' type='text/css'>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-<div class="container">
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="/">
+          <%= image_tag("logo.png") %>
+        </a>
+      </div>
+    </div>
+  </nav>
+<div class="main-content container mb">
 
   <% if flash[:alert] %>
     <div class="alert alert-danger" role="alert">
@@ -25,5 +35,10 @@
 
   <%= yield %>
 </div>
+<footer class="footer">
+  <div class="container">
+    <strong>Made with ♥ by alberto</strong>
+  </div>
+</footer>
 </body>
 </html>

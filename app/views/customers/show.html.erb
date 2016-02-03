@@ -18,7 +18,13 @@
 <p>Email: <%= @customer.contact_email %></p>
 <p>Phone: <%= @customer.contact_phone %></p>
 
-<h2>Bank Accounts</h2>
+<%= link_to 'Edit', edit_customer_path(@customer.id), class: "btn btn-primary" %>
+<hr>
+<div class="clearfix">
+  <h2 class="pull-left mt--sm">Bank Accounts</h2>
+  <%= link_to 'Create account', new_customer_bank_account_path(@customer.id), class: "btn btn-primary pull-right" %>
+</div>
+
 <table class="table" data-qa="customer__bank_accounts">
   <thead>
     <tr>
@@ -37,8 +43,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Create account', new_customer_bank_account_path(@customer.id), class: "btn btn-primary" %>
-
-<%= link_to 'Edit', edit_customer_path(@customer.id), class: "btn btn-primary" %>
-<%= link_to 'Back', customers_path, class: "btn btn-lnk" %>

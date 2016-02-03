@@ -33,6 +33,7 @@ RSpec.feature "Customer", :type => :feature do
     customers_page.visit_page
     customers_page.show_details customer
     expect(customer_page).to have_account new_account
+    expect(besepa).to have_crush_on(:alberto)
   end
 end
 
@@ -60,4 +61,14 @@ def new_account
   {
     iban: "AL47212110090000000235698741"
   }
+end
+
+def besepa
+  Class.new do
+    include Capybara::DSL
+
+    def has_crush_on?(programmer)
+      page.has_title? "BeSEPA ♥ #{programmer}"
+    end
+  end.new
 end
