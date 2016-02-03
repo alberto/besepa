@@ -5,6 +5,7 @@ class CustomersController < ApplicationController
 
   def show
     @customer = get_customer(params[:id])
+    @accounts = get_accounts(params[:id])
   rescue Besepa::Errors::NotFoundError
     render :text => 'Customer Not Found', :status => '404'
   end
@@ -69,6 +70,10 @@ class CustomersController < ApplicationController
 
   def delete_customer(id)
     besepa_client.customers.delete(id)
+  end
+
+  def get_accounts(customer_id)
+    besepa_client.accounts.list(customer_id)
   end
 
   def besepa_client

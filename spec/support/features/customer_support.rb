@@ -56,14 +56,21 @@ module Pages
       has_content?(customer[:reference])
     end
 
+    def delete_customer customer
+      click_on "Delete"
+    end
+
     def create_account account
       click_on "Create account"
       fill_in('Iban', :with => account[:iban])
       click_on "Create"
     end
 
-    def delete_customer customer
-      click_on "Delete"
+    def has_account? account
+      iban = account[:iban]
+      accounts = find(:xpath, '//*[@data-qa="customer__bank_accounts"]')
+      accounts.has_content? iban
     end
+
   end
 end

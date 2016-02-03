@@ -40,15 +40,16 @@ describe CustomersController do
   describe "GET show" do
     before(:each) do
       allow(controller).to receive(:get_customer)
+      allow(controller).to receive(:get_accounts)
     end
 
     it "has a 200 status code" do
-       get :show, id: 1
+       get :show, id: "1"
        expect(response).to have_http_status(:ok)
      end
 
     it "renders show template" do
-      get :show, id: 1
+      get :show, id: "1"
       expect(response).to render_template(:show)
     end
 
@@ -56,8 +57,17 @@ describe CustomersController do
       customer = double("customer")
       allow(controller).to receive(:get_customer).and_return(customer)
 
-      get :show, id: 1
+      get :show, id: "1"
       expect(assigns(:customer)).to eq(customer)
+    end
+
+    it "assigns @accounts" do
+      customer_id = "1"
+      accounts = double("accounts")
+      expect(controller).to receive(:get_accounts).with(customer_id).and_return(accounts)
+
+      get :show, id: customer_id
+      expect(assigns(:accounts)).to eq(accounts)
     end
 
     context "with nonexistent customer" do
@@ -66,7 +76,7 @@ describe CustomersController do
       end
 
       it "has a 404 status code" do
-         get :show, id: 1
+         get :show, id: "1"
          expect(response).to have_http_status(:not_found)
        end
     end
@@ -78,12 +88,12 @@ describe CustomersController do
     end
 
     it "has a 200 status code" do
-       get :edit, id: 1
+       get :edit, id: "1"
        expect(response).to have_http_status(:ok)
      end
 
     it "renders edit template" do
-      get :edit, id: 1
+      get :edit, id: "1"
       expect(response).to render_template(:edit)
     end
 
@@ -91,7 +101,7 @@ describe CustomersController do
       customer = double("customer")
       allow(controller).to receive(:get_customer).and_return(customer)
 
-      get :edit, id: 1
+      get :edit, id: "1"
       expect(assigns(:customer)).to eq(customer)
     end
 
@@ -101,7 +111,7 @@ describe CustomersController do
       end
 
       it "has a 404 status code" do
-         get :edit, id: 1
+         get :edit, id: "1"
          expect(response).to have_http_status(:not_found)
        end
     end
@@ -170,17 +180,17 @@ describe CustomersController do
     end
 
     it "has a 302 status code" do
-       put :update, id: 1, customer: customer_params
+       put :update, id: "1", customer: customer_params
        expect(response).to have_http_status(:found)
      end
 
     it "redirects to index" do
-      put :update, id: 1, customer: customer_params
+      put :update, id: "1", customer: customer_params
       expect(response).to redirect_to(customers_path)
     end
 
     it "displays a success message" do
-      put :update, id: 1, customer: customer_params
+      put :update, id: "1", customer: customer_params
       expect(flash[:notice]).to match(/^Customer successfully updated/)
     end
 
@@ -191,22 +201,22 @@ describe CustomersController do
       end
 
       it "has a 200 status code" do
-         put :update, id: 1, customer: customer_params
+         put :update, id: "1", customer: customer_params
          expect(response).to have_http_status(:ok)
        end
 
       it "renders the edit template" do
-        put :update, id: 1, customer: customer_params
+        put :update, id: "1", customer: customer_params
         expect(response).to render_template(:edit)
       end
 
       it "displays an error message" do
-        put :update, id: 1, customer: customer_params
+        put :update, id: "1", customer: customer_params
         expect(flash[:alert]).to match(/^Customer could not be updated/)
       end
 
       it "assigns updated @customer" do
-        put :update, id: 1, customer: customer_params
+        put :update, id: "1", customer: customer_params
 
         expect(assigns(:customer)).to have_attributes(
           id: "1",
@@ -222,17 +232,17 @@ describe CustomersController do
     end
 
     it "has a 302 status code" do
-       delete :destroy, id: 1
+       delete :destroy, id: "1"
        expect(response).to have_http_status(:found)
      end
 
     it "redirects to index" do
-      delete :destroy, id: 1
+      delete :destroy, id: "1"
       expect(response).to redirect_to(customers_path)
     end
 
     it "displays a success message" do
-      delete :destroy, id: 1
+      delete :destroy, id: "1"
       expect(flash[:notice]).to match(/^Customer successfully removed/)
     end
 
@@ -242,17 +252,17 @@ describe CustomersController do
       end
 
       it "has a 200 status code" do
-         delete :destroy, id: 1
+         delete :destroy, id: "1"
          expect(response).to have_http_status(:ok)
        end
 
       it "renders the edit template" do
-        delete :destroy, id: 1
+        delete :destroy, id: "1"
         expect(response).to render_template(:edit)
       end
 
       it "displays an alert message" do
-        delete :destroy, id: 1
+        delete :destroy, id: "1"
         expect(flash[:alert]).to match(/^Customer could not be deleted/)
       end
     end

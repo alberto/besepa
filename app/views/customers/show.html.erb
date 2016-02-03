@@ -19,6 +19,23 @@
 <p>Phone: <%= @customer.contact_phone %></p>
 
 <h2>Bank Accounts</h2>
+<table class="table" data-qa="customer__bank_accounts">
+  <thead>
+    <tr>
+      <th>Bank</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts.each do |account| %>
+      <tr>
+        <td><%= account[:iban] %></td>
+        <td><%= account[:status] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to 'Create account', new_customer_bank_account_path(@customer.id), class: "btn btn-primary" %>
 
 <%= link_to 'Edit', edit_customer_path(@customer.id), class: "btn btn-primary" %>

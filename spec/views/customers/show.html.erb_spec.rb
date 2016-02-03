@@ -5,8 +5,11 @@ describe "customers/show.html.erb" do
   include CustomerHelpers
 
   let(:customer) { build_customer_with_id }
+  let(:accounts) { [build_account] }
+
   it "displays all customer fields" do
     assign(:customer, customer)
+    assign(:accounts, [])
 
     render
 
@@ -26,8 +29,23 @@ describe "customers/show.html.erb" do
     expect(rendered).to have_content customer.contact_phone
   end
 
+  context "when there are accounts" do
+    it "displays each account" do
+      assign(:customer, customer)
+      assign(:accounts, accounts)
+
+      render
+
+      accounts.each do |account|
+        expect(rendered).to have_content account.iban
+        expect(rendered).to have_content account.status
+      end
+    end
+  end
+
   it "has edit link" do
     assign(:customer, customer)
+    assign(:accounts, accounts)
 
     render
 
@@ -36,6 +54,7 @@ describe "customers/show.html.erb" do
 
   it "has delete link" do
     assign(:customer, customer)
+    assign(:accounts, accounts)
 
     render
 

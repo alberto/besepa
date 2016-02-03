@@ -23,4 +23,9 @@ module CustomerHelpers
   def build_customer_with_id
     build_customer({id: SecureRandom.uuid})
   end
+
+  def build_account
+    params = { iban: "iban", status: "SIGNED" }
+    Besepa::Resources::BankAccount.new(params)
+  end
 end

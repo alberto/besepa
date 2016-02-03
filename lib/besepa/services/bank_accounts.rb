@@ -6,11 +6,22 @@ module Besepa
       end
 
       def create(customer_id, account)
-        response = @rest_client.post("customers/#{customer_id}/bank_accounts", {bank_account: account})
+        response = @rest_client.post(collection_endpoint(customer_id), {bank_account: account})
         handle_response(response)
       end
 
+      def list(customer_id)
+        response = @rest_client.get(collection_endpoint(customer_id))
+        raise_on_errors(response)
+        response.body["response"].map do |account|
+          Resources::BankAccount.new(account)
+        end
+      end
+
       private
+      def collection_endpoint(customer_id)
+        "customers/#{customer_id}/bank_accounts"
+      end
       def handle_response(response)
         raise_on_errors(response)
         Resources::BankAccount.new response.body["response"]

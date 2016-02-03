@@ -25,7 +25,7 @@ RSpec.feature "Customer", :type => :feature do
 
     customers_page.show_details customer
     customer_page.create_account account
-    # expect(customer_page).to have_account account
+    expect(customer_page).to have_account account
     #
     # account_page = customer_page.show_account_details account
     # expect(account_page).to have_account_details account
