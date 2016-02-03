@@ -26,16 +26,13 @@ RSpec.feature "Customer", :type => :feature do
     customers_page.show_details customer
     customer_page.create_account account
     expect(customer_page).to have_account account
-    #
-    # account_page = customer_page.show_account_details account
-    # expect(account_page).to have_account_details account
-    #
-    # account_page.replace new_account
-    # customers_page.show_details customer
-    # expect(customer_page).to have_account new_account
-    #
-    # customer_page.show_account_details new_account
-    # expect(account_page).to have_account_details new_account
+
+    account_page = customer_page.show_account_details account
+    account_page.replace new_account
+
+    customers_page.visit_page
+    customers_page.show_details customer
+    expect(customer_page).to have_account new_account
   end
 end
 
@@ -56,5 +53,11 @@ end
 def build_account
   {
     iban: "ES4601280037590100038136"
+  }
+end
+
+def new_account
+  {
+    iban: "AL47212110090000000235698741"
   }
 end

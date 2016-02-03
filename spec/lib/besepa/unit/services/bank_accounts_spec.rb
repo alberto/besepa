@@ -76,4 +76,77 @@ describe "BankAccounts Service" do
       end
     end
   end
+
+  describe "#get" do
+    before(:each) do
+      stub_request(:get, /.*besepa\.com\/api\/1\/customers\/1\/bank_accounts\/1/).
+        to_return({ body: fixture('bank_accounts/bank_account_get.json')})
+    end
+
+    it "returns a BankAccount" do
+      account = subject.get(1, 1)
+      expect(account).to be_a Besepa::Resources::BankAccount
+    end
+
+    it "returns the expected data" do
+      account = subject.get(1, 1)
+      expect(account).to have_attributes(
+        id: "ban21d18575aae931777012afba1b0b8148",
+        bank_name: "Banco Santander",
+        bic: "BSCHESMM",
+        iban: "ES7610771024203102575766",
+        status: "PENDING_MANDATE",
+        customer_id: "cusf11b647d2cc16e503fe8ba36f88c",
+        created_at: "Sun, 10 May 2015 15:47:12 UTC +00:00"
+      )
+    end
+
+    context "non existing account" do
+      it "raises a NotFoundError" do
+        stub_request(:get, /.*besepa\.com\/api\/1\/customers\/1\/bank_accounts\/1/).
+          to_return({status: 404})
+
+        expect { subject.get(1, 1) }.to raise_error Besepa::Errors::NotFoundError
+      end
+    end
+  end
+
+  describe "#replace" do
+    let(:customer_id) { 1 }
+    let(:account_id) { 2 }
+
+    let(:account_params) {}
+
+    before(:each) do
+      stub_request(:post, /.*besepa\.com\/api\/1\/customers\/1\/bank_accounts\/2\/replace/).
+        to_return({ body: fixture('bank_accounts/bank_account_replace.json')})
+    end
+
+    it "returns a BankAccount" do
+      account = subject.replace(customer_id, account_id, account_params)
+      expect(account).to be_a Besepa::Resources::BankAccount
+    end
+
+    it "returns the expected data" do
+      account = subject.replace(customer_id, account_id, account_params)
+      expect(account).to have_attributes(
+        id: "ban21d18575aae931777012afba1b0b8148",
+        bank_name: "Banco Santander",
+        bic: "BSCHESMM",
+        iban: "ES7610771024203102575766",
+        status: "PENDING_MANDATE",
+        customer_id: "cusf11b647d2cc16e503fe8ba36f88c",
+        created_at: "Sun, 10 May 2015 15:47:12 UTC +00:00"
+      )
+    end
+
+    context "invalid account" do
+      it "raises a InvalidResourceError" do
+        stub_request(:post, /.*besepa\.com\/api\/1\/customers\/1\/bank_accounts\/2\/replace/).
+          to_return({status: 422})
+
+        expect { subject.replace(customer_id, account_id, account_params) }.to raise_error Besepa::Errors::InvalidResourceError
+      end
+    end
+  end
 end

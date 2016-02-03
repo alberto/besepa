@@ -72,5 +72,21 @@ module Pages
       accounts.has_content? iban
     end
 
+    def show_account_details account
+      accounts = find(:xpath, '//*[@data-qa="customer__bank_accounts"]')
+      edit_account_link = accounts.find(:xpath, '//*[@data-qa="customer__bank_account"][.//*[text()="' + account[:iban] +'"]]')
+      edit_account_link.click
+      Account.new
+    end
+  end
+
+  class Account
+    include Capybara::DSL
+
+    def replace new_account
+      click_on "Replace"
+      fill_in('Iban', :with => new_account[:iban])
+      click_on "Replace"
+    end
   end
 end

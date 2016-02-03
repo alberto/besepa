@@ -1,0 +1,13 @@
+<h1>Replace Bank Account</h1>
+
+<%= form_for(:bank_account, url: replace_customer_bank_account_path(@customer_id, @account.id)) do |f| %>
+  <div class="form-group">
+    <%= f.label :iban %><br>
+    <%= f.text_field :iban %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Replace", class: "btn btn-primary" %>
+    <%= link_to 'Back', customer_path(@customer_id), class: "btn btn-lnk" %>
+  </div>
+<% end %>

@@ -24,13 +24,15 @@
     <tr>
       <th>Bank</th>
       <th>Status</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <% @accounts.each do |account| %>
-      <tr>
+      <tr data-qa="customer__bank_account">
         <td><%= account[:iban] %></td>
         <td><%= account[:status] %></td>
+        <td><%= link_to 'Replace', edit_customer_bank_account_path(@customer.id, account.id) %></td>
       </tr>
     <% end %>
   </tbody>

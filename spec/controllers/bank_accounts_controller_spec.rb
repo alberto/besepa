@@ -76,4 +76,92 @@ RSpec.describe BankAccountsController, type: :controller do
     end
   end
 
+  describe "GET edit" do
+    before(:each) do
+      allow(controller).to receive(:get_account)
+    end
+
+    it "has a 200 status code" do
+       get :edit, customer_id: "1", id: "1"
+       expect(response).to have_http_status(:ok)
+     end
+
+    it "renders edit template" do
+      get :edit, customer_id: "1", id: "1"
+      expect(response).to render_template(:edit)
+    end
+
+    it "assigns @account" do
+      account = double("account")
+      allow(controller).to receive(:get_account).and_return(account)
+
+      get :edit, customer_id: "1", id: "1"
+      expect(assigns(:account)).to eq(account)
+    end
+
+    context "with nonexistent account" do
+      before(:each) do
+        allow(controller).to receive(:get_account).and_raise Besepa::Errors::NotFoundError
+      end
+
+      it "has a 404 status code" do
+         get :edit, customer_id: "1", id: "1"
+         expect(response).to have_http_status(:not_found)
+       end
+    end
+  end
+
+  describe "POST replace" do
+    let(:account_params) { {iban: "iban"} }
+
+    before(:each) do
+      allow(controller).to receive(:replace_account)
+    end
+
+    it "has a 302 status code" do
+       post :replace, customer_id: "1", id: "2", bank_account: account_params
+       expect(response).to have_http_status(:found)
+    end
+
+    it "redirects to index" do
+      post :replace, customer_id: "1", id: "2", bank_account: account_params
+      expect(response).to redirect_to(customer_path(1))
+    end
+
+    it "displays a success message" do
+      post :replace, customer_id: "1", id: "2", bank_account: account_params
+      expect(flash[:notice]).to match(/^Account successfully replaced/)
+    end
+
+    context "with invalid data" do
+      before(:each) do
+        allow(controller).to receive(:replace_account).and_raise(Besepa::Errors::BesepaError)
+      end
+
+      it "has a 200 status code" do
+         post :replace, customer_id: "1", id: "2", bank_account: account_params
+         expect(response).to have_http_status(:ok)
+      end
+
+      it "renders the new template" do
+        post :replace, customer_id: "1", id: "2", bank_account: account_params
+        expect(response).to render_template(:edit)
+      end
+
+      it "displays an alert message" do
+        post :replace, customer_id: "1", id: "2", bank_account: account_params
+        expect(flash[:alert]).to match(/^Account could not be replaced/)
+      end
+
+      it "assigns updated @account" do
+        post :replace, customer_id: "1", id: "2", bank_account: account_params
+
+        account = assigns(:account)
+        expect(account).to have_attributes(
+          iban: account_params[:iban],
+          id: "2"
+        )
+      end
+    end
+  end
 end

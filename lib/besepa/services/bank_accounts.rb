@@ -18,9 +18,23 @@ module Besepa
         end
       end
 
+      def get(customer_id, account_id)
+        response = @rest_client.get(resource_endpoint(customer_id, account_id))
+        handle_response(response)
+      end
+
+      def replace(customer_id, account_id, account)
+        response = @rest_client.post("#{resource_endpoint(customer_id, account_id)}/replace", {bank_account: account})
+        handle_response(response)
+      end
+
       private
       def collection_endpoint(customer_id)
         "customers/#{customer_id}/bank_accounts"
+      end
+
+      def resource_endpoint(customer_id, account_id)
+        "#{collection_endpoint(customer_id)}/#{account_id}"
       end
       def handle_response(response)
         raise_on_errors(response)

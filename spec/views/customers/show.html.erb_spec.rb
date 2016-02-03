@@ -5,7 +5,7 @@ describe "customers/show.html.erb" do
   include CustomerHelpers
 
   let(:customer) { build_customer_with_id }
-  let(:accounts) { [build_account] }
+  let(:accounts) { [build_account_with_id] }
 
   it "displays all customer fields" do
     assign(:customer, customer)
@@ -39,6 +39,7 @@ describe "customers/show.html.erb" do
       accounts.each do |account|
         expect(rendered).to have_content account.iban
         expect(rendered).to have_content account.status
+        expect(rendered).to have_link "Replace", edit_customer_bank_account_path(customer.id, account.id)
       end
     end
   end
