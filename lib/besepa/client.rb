@@ -15,5 +15,9 @@ module Besepa
     def customers
       Services::Customers.new(@rest_client)
     end
+
+    def accounts
+      Services::BankAccounts.new(@rest_client)
+    end
   end
 end
